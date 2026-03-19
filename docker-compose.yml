@@ -1,0 +1,150 @@
+services:
+  user-db:
+    image: postgres:18
+    container_name: user-db
+    environment:
+      POSTGRES_DB: user_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passpostgres
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+    volumes:
+      - user_db_data:/var/lib/postgresql
+
+  product-db:
+    image: postgres:18
+    container_name: product-db
+    environment:
+      POSTGRES_DB: product_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passpostgres
+    ports: 
+      - "5434:5432"
+    networks:
+      - backend
+    volumes:
+      - product_db_data:/var/lib/postgresql
+
+  order-db:
+    image: postgres:18
+    container_name: order-db
+    environment:
+      POSTGRES_DB: order_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passpostgres
+    ports: 
+      - "5435:5432"
+    networks:
+      - backend
+    volumes:
+      - order_db_data:/var/lib/postgresql
+  
+  shop-db:
+    image: postgres:18
+    container_name: shop-db
+    environment:
+      POSTGRES_DB: shop_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passpostgres
+    ports: 
+      - "5436:5432"
+    networks:
+      - backend
+    volumes:
+      - shop_db_data:/var/lib/postgresql
+  
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8001:8000"
+    depends_on:
+      - user-db
+    networks:
+      - backend
+    
+
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    ports:
+      - "8002:8000"
+    depends_on:
+      - product-db
+      - redis
+      - rabbitmq
+    networks:
+      - backend
+    
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8003:8000"
+    depends_on:
+      - order-db
+      - redis
+      - rabbitmq
+    networks:
+      - backend
+  
+
+  shop-service:
+    build: ./shop-service
+    container_name: shop-service
+    ports:
+      - "8004:8000"
+    depends_on:
+      - shop-db
+      - redis
+      - rabbitmq
+    networks:
+      - backend
+
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8005:8000"
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+      - shop-service
+    networks:
+      - backend
+
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - backend
+
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  user_db_data:
+  product_db_data:
+  order_db_data:
+  shop_db_data:

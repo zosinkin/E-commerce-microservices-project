@@ -1,0 +1,21 @@
+[project]
+name = "seller-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "core",
+    "python-slugify>=8.0.4",
+]
+
+[tool.uv.sources]
+core = { git = "https://github.com/zosinkin/core-package.git" }
+
+
+
+
+
+
+
+

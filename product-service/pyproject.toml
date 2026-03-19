@@ -1,0 +1,19 @@
+[project]
+name = "product-service"
+version = "0.1.0"
+description = "Product Management Service"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "core",
+    "pydantic[email]>=2.12.5",
+    "redis>=7.3.0",
+    "update>=0.0.1",
+]
+
+[tool.uv.sources]
+core = { git = "https://github.com/zosinkin/core-package.git" }
+
+
+
+
