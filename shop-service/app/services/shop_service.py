@@ -4,10 +4,11 @@ from app.models.shop import Shop
 from app.dao import ShopDAO
 from fastapi import HTTPException, status
 from slugify import slugify 
+from uuid import UUID
 
 
 class ShopService:
-
+    """Shop managing service"""
     @classmethod
     async def create_shop(cls, current_user: TokenSchema, data: ShopCreateSchema, session: AsyncSession) -> Shop:
         current_user = current_user.model_dump()
@@ -15,7 +16,7 @@ class ShopService:
         if current_user["is_seller"] == False:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Для начала станьте селлером"
+                detail="To create a shop, you need to become a seller."
             )
 
         data = data.model_dump()
@@ -24,7 +25,7 @@ class ShopService:
         if exist_shop:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail="Магазин с таким названием уже существует"
+                detail="Shop with this name does not exists"
             )
         
         data["seller_id"] = current_user["user_id"]
@@ -38,3 +39,15 @@ class ShopService:
         data = data.model_dump()
         data["slug"] = slugify(data["name"]) 
         return await ShopDAO.update_data(obj_id=data["id"], session=session, data=data)
+    
+
+    @classmethod
+    async def get_shop_info(cls, id: UUID, session: AsyncSession):
+        shop = await ShopDAO.get_object_by_id(obj_id=id, session=session)
+
+        if shop is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Shop not found"
+            )    
+        return shop

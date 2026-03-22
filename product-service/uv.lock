@@ -180,7 +180,7 @@ wheels = [
 [[package]]
 name = "core"
 version = "0.1.0"
-source = { git = "https://github.com/zosinkin/core-package.git#c98342e59436bf0b5caa047e2fb3612db2e298d3" }
+source = { git = "https://github.com/zosinkin/core-package.git#9651e760dce21101f8301b4f0a903b7a358ddb49" }
 dependencies = [
     { name = "aio-pika" },
     { name = "aiormq" },

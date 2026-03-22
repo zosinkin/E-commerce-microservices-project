@@ -1,7 +1,5 @@
 PRODUCTS_EXCHANGE = "products_exchange"
-
 PRODUCT_CREATED_KEY = "product.created"
 PRODUCT_UPDATED_KEY = "product.updated"
 PRODUCT_DELETED_KEY = "product.deleted"
-
 PRODUCTS_AUDIT_QUEUE = "products_audit_queue"

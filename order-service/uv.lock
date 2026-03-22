@@ -180,7 +180,7 @@ wheels = [
 [[package]]
 name = "core"
 version = "0.1.0"
-source = { git = "https://github.com/zosinkin/core-package.git#d0bcf3ea24a8b7fc9d84e0185c3d5ed5a9cf7c4c" }
+source = { git = "https://github.com/zosinkin/core-package.git#9651e760dce21101f8301b4f0a903b7a358ddb49" }
 dependencies = [
     { name = "aio-pika" },
     { name = "aiormq" },
@@ -438,12 +438,14 @@ name = "order-service"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "aio-pika" },
     { name = "core" },
     { name = "httpx" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "aio-pika", specifier = ">=9.6.1" },
     { name = "core", git = "https://github.com/zosinkin/core-package.git" },
     { name = "httpx", specifier = ">=0.28.1" },
 ]

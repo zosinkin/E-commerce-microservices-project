@@ -5,7 +5,6 @@ class ShopSettings(Settings):
     RABBITMQ_URL: str
     
 
-
 settings = ShopSettings()
 
 

@@ -1,8 +1,7 @@
 from decimal import Decimal
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, EmailStr
 from fastapi import HTTPException, status
 from uuid import UUID
-
 
 
 class ProductCreateSchema(BaseModel):
@@ -44,7 +43,6 @@ class ProductCreateSchema(BaseModel):
         return name
     
 
-
 class ProductUpdateSchema(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=255)
     description: str | None = None
@@ -65,18 +63,17 @@ class ProductResponseSchema(BaseModel):
     model_config = {"from_attributes": True}  
 
 
-class ReserveItemSchema(BaseModel):
-    product_id: str
-    quantity: int = 1 
-
-
-class ReserveRequestSchema(BaseModel):
-    order_id: str
-    items: list[ReserveItemSchema]
-
-
 class ReserveResponseSchema(BaseModel):
     id: UUID
     quantity: int
+    name: str
     price: Decimal
-    
+    shop_id: UUID
+
+
+class ReserveRequestSchema(BaseModel):
+    id: UUID
+    quantity: int
+
+
+

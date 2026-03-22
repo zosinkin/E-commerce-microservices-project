@@ -6,7 +6,6 @@ from typing import List, Dict
 from sqlalchemy.exc import SQLAlchemyError
 
 
-
 class ProductDAO(BaseDAO):
     model = Product
 

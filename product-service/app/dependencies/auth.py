@@ -3,7 +3,6 @@ from app.config import settings
 from core.auth import decode_jwt_token
 
 
-
 async def get_token(request: Request) -> str:
     token = request.cookies.get("user_access_token")
     if not token:

@@ -1,6 +1,5 @@
 from uuid import UUID
-from datetime import datetime
-from pydantic import BaseModel, Field, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 from app.models.shop import ShopStatus
 
 
@@ -12,6 +11,7 @@ class TokenSchema(BaseModel):
 
 class ShopCreateSchema(BaseModel):
     name: str
+    email: EmailStr
     description: str
    
 
@@ -20,6 +20,17 @@ class ShopUpdateSchema(BaseModel):
     name: str | None = None
     description: str | None = None
     status: ShopStatus | None = None
+
+
+class ShopResponseSchema(BaseModel):
+    id: UUID
+    name: str
+    description: str
+    status: ShopStatus
+    seller_id: UUID
+    email: EmailStr
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 

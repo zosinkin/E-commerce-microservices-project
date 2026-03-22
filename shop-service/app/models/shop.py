@@ -1,14 +1,8 @@
-from app.database import Base
-from core.database import int_pk, name_str, description, rating, slug, foreign_uuid
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import (
-    Boolean, text,
-    func, 
-    Integer, Uuid, ForeignKey
-    )
+from core.database import Base
+from core.database import int_pk, name_str, description, rating, slug, foreign_uuid, email
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import (text, func, Integer)
 from enum import Enum
-from uuid import UUID
-
 
 
 class ShopStatus(Enum):
@@ -19,8 +13,6 @@ class ShopStatus(Enum):
     deactivated = "deactivated"
 
 
-
-
 class Shop(Base):
     __tablename__ = "shops"
 
@@ -29,6 +21,7 @@ class Shop(Base):
     description: Mapped[description]
     slug: Mapped[slug]
     seller_id: Mapped[foreign_uuid]
+    email: Mapped[email]
     is_verified: Mapped[foreign_uuid]
     status: Mapped[ShopStatus] = mapped_column(default=ShopStatus.pending, nullable=True)
     rating: Mapped[rating] 

@@ -18,8 +18,9 @@ class OrderResponseSchema(OrderSchema):
     
 
 class OrderItemCreateSchema(BaseModel):
-    product_id: UUID
+    id: UUID
     quantity: int
+    
 
     @field_validator("quantity", mode="before")
     @classmethod
@@ -32,6 +33,5 @@ class OrderItemCreateSchema(BaseModel):
         return qty
 
 
-class OrderCreateSchema(BaseModel):
-    items: list[OrderItemCreateSchema]
+
 

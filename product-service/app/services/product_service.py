@@ -16,7 +16,7 @@ from app.config import settings
 
 
 class ProductService:
-    
+    """Product managing service"""
     @classmethod
     async def create_product(cls, 
                             data: ProductCreateSchema,
@@ -115,35 +115,38 @@ class ProductService:
     
 
     @classmethod
-    async def reserve_products(cls, data: ReserveRequestSchema, session: AsyncSession) -> List[dict]:
-        payload = data.model_dump()
+    async def reserve_products(cls, data: List[ReserveRequestSchema], session: AsyncSession) -> List[dict]:
+        payload = [item.model_dump() for item in data]
         
         product_list = []
-        for item in payload["items"]:
-            product = await ProductDAO.get_object_by_id(session=session, obj_id=item["product_id"])
+        for item in payload:
+            product = await ProductDAO.get_object_by_id(session=session, obj_id=item["id"])
+           
 
             if product is None:
                 raise HTTPException(
                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"Товар {item['product_id']} не найден"
+                    detail=f"Товар {item['id']} не найден"
                 )
             
             if not product.is_active:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"Товар {item['product_id']} не активен"
+                    detail=f"Товар {item['id']} не активен"
                 )
             
             if product.stock < item["quantity"]:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=f"Недостаточно товара {item['product_id']}"
+                    detail=f"Недостаточно товара {item['id']}"
                 )
             
             product_list.append({
-                "id": item["product_id"],
+                "id": product.id,
                 "quantity": item["quantity"],
-                "price": product.price
+                "name": product.name,
+                "price": product.price,
+                "shop_id": product.shop_id
             })
         
         await ProductDAO.reserve_products(product_list, session=session)

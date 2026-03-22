@@ -1,4 +1,4 @@
-from app.config import engine, async_session_factory
+from app.config import async_session_factory
 
 
 

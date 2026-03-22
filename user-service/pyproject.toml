@@ -6,9 +6,6 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "core",
-    "email-validator>=2.3.0",
-    "pydantic[email]>=2.12.5",
-    "update>=0.0.1",
 ]
 
 [tool.uv.sources]

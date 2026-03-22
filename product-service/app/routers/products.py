@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, status
-from app.schemas.product import ProductCreateSchema, ProductUpdateSchema, ProductResponseSchema
+from app.schemas.product import ProductCreateSchema, ProductUpdateSchema, ProductResponseSchema, ReserveResponseSchema
 from app.services.product_service import ProductService
 from app.dependencies.database import make_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.dependencies.auth import get_current_user
-from app.schemas.product import ReserveResponseSchema, ReserveRequestSchema
+from app.schemas.product import ReserveRequestSchema
 from uuid import UUID
 from typing import List
 
@@ -46,7 +46,7 @@ async def update_product(
 
 @router.post("/reserve", response_model=List[ReserveResponseSchema])
 async def reserve_products(
-    data: ReserveRequestSchema,
+    data: List[ReserveRequestSchema],
     session: AsyncSession = Depends(make_session),
     current_user=Depends(make_session)
     ):

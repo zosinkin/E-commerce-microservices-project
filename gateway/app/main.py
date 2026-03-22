@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 
+
 import httpx
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
@@ -142,32 +143,12 @@ async def create_order(request: Request):
     )
 
 
-"""Проксирование Seller-service"""
-@app.api_route("/seller/create", methods=["POST"])
-async def create_seller(request: Request):
-    return await forward_request(
-        request=request,
-        service_name="seller-service",
-        path="/seller/create",
-        client=request.app.state.http_client,
-    )
-
-
-@app.api_route("/seller/update", methods=["PUTCH"])
-async def update_seller(request: Request):
-    return await forward_request(
-        request=request,
-        service_name="seller-service",
-        path="/seller/update",
-        client=request.app.state.http_client,
-    )
-
-
+"""Проксирование Shop-service"""
 @app.api_route("/shop/create", methods=["POST"])
 async def create_shop(request: Request):
     return await forward_request(
         request=request,
-        service_name="seller-service",
+        service_name="shop-service",
         path="/shop/create",
         client=request.app.state.http_client,
 )
@@ -177,7 +158,8 @@ async def create_shop(request: Request):
 async def update_shop(request: Request):
     return await forward_request(
     request=request,
-    service_name="seller-service",
+    service_name="shop-service",
     path="/shop/update",
     client=request.app.state.http_client,
 )
+

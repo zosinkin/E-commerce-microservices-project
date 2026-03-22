@@ -19,13 +19,13 @@ async def get_token(request: Request) -> str:
 
 
 async def get_current_user(token: str = Depends(get_token), session: AsyncSession = Depends(make_session)) -> UserResponseSchema:
+    """Getting information about the authenticated user"""
     token_data = decode_jwt_token(
         token=token,
         secret_key=settings.SECRET_KEY,
         algorithm=settings.ALGORITHM,
     )
 
-    
     if token_data is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

@@ -1,8 +1,8 @@
 from decimal import Decimal
-from sqlalchemy import String, Text, Numeric, Integer, Boolean
+from sqlalchemy import Numeric, Integer, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
-
 from core.database import Base, int_pk, name_str, description, foreign_uuid
+
 
 class Product(Base):
     __tablename__ = "products"

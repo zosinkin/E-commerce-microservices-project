@@ -4,7 +4,8 @@ from core.config import Settings
 class ProductSettings(Settings):
     REDIS_URL: str
     RABBITMQ_URL: str
-    BASE_URL: str
+    PRODUCT_SERVICE_URL: str
+    SHOP_SERVICE_URL: str
 
 settings = ProductSettings()
 
