@@ -14,7 +14,7 @@ class UserCreateSchema(BaseModel):
     def validate_email(cls, email):
         regexp_email = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
-        if (re.match(regexp_email, email) is None):
+        if re.fullmatch(regexp_email, email) is None:
             raise ValueError(f"Wrong email!")
         return email
     

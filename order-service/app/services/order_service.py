@@ -84,6 +84,19 @@ class OrderService:
             ]
         }
 
+        payment_message = {
+            "event": "order.created",
+            "order_id": str(order.id),
+            "buyer_id": str(current_user.user_id),
+            "total_price": str(order.total_price),
+            "status": order.status.value
+        }
+
+        await rabbitmq.publish(
+            routing_key="order.created.payment",
+            message=payment_message
+        )
+
         await rabbitmq.publish(
             routing_key="order.created.buyer", 
             message=buyer_message

@@ -54,8 +54,35 @@ services:
       - backend
     volumes:
       - shop_db_data:/var/lib/postgresql
-  
 
+  payment-db:
+    image: postgres:18
+    container_name: payment-db
+    environment:
+      POSTGRES_DB: payment_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passpostgres
+    ports: 
+      - "5437:5432"
+    networks:
+      - backend
+    volumes:
+      - payment_db_data:/var/lib/postgresql
+
+
+  migrate:
+    image: migrate/migrate
+    depends_on:
+      - payment-db
+    volumes:
+      - ./migrations:/migrations
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://postgres:passpostgres@payment-db:5437/payments_service_db?sslmode=disable",
+      "up"
+    ]
+
+    
   user-service:
     build: ./user-service
     container_name: user-service
@@ -115,12 +142,22 @@ services:
     networks:
       - backend
 
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - payment-db
+      - migrate
+    networks:
+      - backend
 
   gateway:
     build: ./gateway
     container_name: gateway
     ports:
-      - "8006:8000"
+      - "8007:8000"
     depends_on:
       - user-service
       - product-service
@@ -158,3 +195,4 @@ volumes:
   product_db_data:
   order_db_data:
   shop_db_data:
+  payment_db_data:

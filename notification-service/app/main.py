@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
         )
     await rabbitmq.subscribe(
         queue_name="notification.order.created.seller",
-        routing_key="order.created.buyer",
+        routing_key="order.created.seller",
         handler=NotificationService.handle_seller_message
     )
     yield
