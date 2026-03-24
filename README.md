@@ -88,9 +88,34 @@
 - HTTPX
 - python-jose (JWT)
 - SQLAlchemy
-- Almebic
+- Alembic
+- pgxpool
 
 ---
 
 ## 🚀 Запуск проекта
+Перед запуском убедитесь, что у вас установлены:
+
+- **Docker** 
+- **Docker Compose**
+- **Git**
+
+1. Клонируйте репозиторий
+```bash
+git clone https://github.com/zosinkin/E-commerce-microservices-project.git
+cd E-commerce-microservices-project
+```
+2. Соберите Docker-контейнеры
+```bash
+docker compose build --no-cache
+```
+
+3. Запустите Docker-контейнеры
+```bash
+docker compose up -d
+```
+4. Просматривайте логи в рельном времени
+```bash
+docker compose logs -f
+```
 
