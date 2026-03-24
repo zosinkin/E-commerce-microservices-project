@@ -19,53 +19,65 @@
   - HTTP (REST API)
   - брокер сообщений (RabbitMQ)
 - Каждый сервис управляет своими данными (Database per Service)
-<img width="1136" height="616" alt="Screenshot from 2026-03-24 11-12-06" src="https://github.com/user-attachments/assets/75ba5a54-f04b-4dd8-aed3-f3856af83264" />
 
+<img width="1731" height="975" alt="Screenshot from 2026-03-24 12-32-06" src="https://github.com/user-attachments/assets/4d7424b3-9127-44e0-96a6-2fb0ef54687e" />
 
 
 ---
 
 ## Основной функционал
 
-### User Service(Python)
+### User Service(Python) - :8001
 - Регистрация пользователя
 - Аутентификация(JWT)
 - Валидация данных через Pydantic
 - Апдэйт пользователей
 - Получение информации о пользователе
+#### User-db - :5433 
+- Хранение данных о пользователях
 
-### Shop Service(Python)
+### Shop Service(Python) - :8004
 - Создание магазина(только если пользователь является селером)
 - Апдэйт магазина
 - Валидация данных(Pydantic)
 - Получение товаров магазина
 - Получение инфорамации о магазине
+#### Shop-db - :5434
+- Хранение данных о магазинах
 
-### Product Service(Python)
+### Product Service(Python) - :8002
 - Создние товара
 - Апдэйт товара
 - Валидация данных(Pydantic)
 - Получение данных о всех товарах
 - Получение данных о определенном товаре
+#### Product-db - :5435
+- Хранение данных о продуктах
 
-### Order Service(Python)
+### Order Service(Python) - :8003
 - Создание заказа
 - Получение данных заказов пользователя
 - Валидация данных(Pydantic)
 - Асинхронная обработка событий через RabbitMQ(Отправка событий в notification-service, delivery-service, payment-service)
+#### Order-db - :5436 
+- Хранение данных о заказах
 
-### Notification Service(Python)
+### Notification Service(Python) - :8005
 - Асинхронная обработка событий через RabbitMQ(Отправка сообщений покупателю и продавцу на email)
 - Валидация данных(Pydantic)
 
-### Payment Service(Go)
+### Payment Service(Go) - :8080
 - Асинхронная обработка событий через RabbitMQ(Формировнаие платежа при создании заказа)
 - Занесение данных о платеже в БД.
+#### Payment-db - :5437 
+- Хранение данных о платежах
 
-### Delivery Service(Go)
+### Delivery Service(Go) - :8081
 - Асинхронная обработка событий через RabbitMQ(Формирование записи в БД при создании заказа)
 - Отслеживание доставки товара.
 - Отправка события в RabbitMQ при изменении статуса доставки.
+#### Delivery-db - :5433 
+- Хранение данных о доставке
 ---
 
 ## Технологический стек
